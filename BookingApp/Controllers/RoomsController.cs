@@ -32,7 +32,13 @@ namespace BookingApp.Controllers
         // GET: RoomsController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            if(!_repo.isExists(id))
+            {
+                return NotFound();
+            }
+            var rooms = _repo.FindById(id);
+            var model = _mapper.Map<RoomVM>(rooms);
+            return View(model);
         }
 
         // GET: RoomsController/Create
@@ -110,22 +116,42 @@ namespace BookingApp.Controllers
         // GET: RoomsController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var rooms = _repo.FindById(id);
+            if (rooms == null)
+            {
+                return NotFound();
+            }
+            var isSucces = _repo.Delete(rooms);
+            if (!isSucces)
+            {
+                return BadRequest();
+            }
+            return RedirectToAction(nameof(Index));
         }
-
+/*
         // POST: RoomsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, RoomVM model)
         {
             try
             {
+                var rooms = _repo.FindById(id);
+                if(rooms == null)
+                {
+                    return NotFound();
+                }
+                var isSucces = _repo.Delete(rooms);
+                if (!isSucces)
+                {
+                    return View(model);
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
                 return View();
             }
-        }
+*/
     }
 }
