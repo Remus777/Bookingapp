@@ -11,6 +11,8 @@ namespace BookingApp.Data
         [Key]
         public int RoomId { get; set; }
         [Required]
+        public int RoomNumber { get; set; }
+        [Required]
         public string RoomType { get; set; }
 
         public virtual ICollection<Booking> Bookings { get; set; }

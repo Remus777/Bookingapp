@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookingApp.Contracts
 {
-    interface IRoomRepository : IRepositoryBase<Room>
+    public interface IRoomRepository : IRepositoryBase<Room>
     {
     }
 }

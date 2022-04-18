@@ -38,6 +38,12 @@ namespace BookingApp.Repository
             return Booking;
         }
 
+        public bool isExists(int id)
+        {
+            var exists = _db.Bookings.Any(q => q.BookingId == id);
+            return exists;
+        }
+
         public bool Save()
         {
             var changes = _db.SaveChanges();
