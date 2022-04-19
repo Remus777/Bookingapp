@@ -14,6 +14,7 @@ namespace BookingApp.Repository
         {
             _db = db;
         }
+       
         public bool Create(Room entity)
         {
             _db.Rooms.Add(entity);

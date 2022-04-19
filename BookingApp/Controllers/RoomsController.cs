@@ -2,6 +2,7 @@
 using BookingApp.Contracts;
 using BookingApp.Data;
 using BookingApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace BookingApp.Controllers
 {
+    [Authorize(Roles ="Administrator")]
     public class RoomsController : Controller
     {   
         private readonly IRoomRepository _repo;
@@ -21,6 +23,7 @@ namespace BookingApp.Controllers
             _repo = repo;
             _mapper = mapper;
         }
+       
         // GET: RoomsController
         public ActionResult Index()
         {
