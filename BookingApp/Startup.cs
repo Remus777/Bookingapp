@@ -37,10 +37,11 @@ namespace BookingApp
             //added
             services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
+            //services.AddScoped<IUserRolesRepository, UserRolesRepository>();
 
             services.AddAutoMapper(typeof(Maps));
 
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<Client>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -51,8 +52,8 @@ namespace BookingApp
         public void Configure(
             IApplicationBuilder app, 
             IWebHostEnvironment env, 
-            UserManager<IdentityUser> userManager, 
-            RoleManager<IdentityRole> rolemanager
+            UserManager<Client> userManager, 
+            RoleManager<IdentityRole> roleManager
             )
         {
             if (env.IsDevelopment())
@@ -74,7 +75,7 @@ namespace BookingApp
             app.UseAuthentication();
             app.UseAuthorization();
 
-            SeedData.Seed(userManager, rolemanager);
+            SeedData.Seed(userManager, roleManager);
 
             app.UseEndpoints(endpoints =>
             {

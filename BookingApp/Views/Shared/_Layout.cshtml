@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using BookingApp.Data
+@inject SignInManager<Client> SignInManager
+@inject UserManager<Client> UserManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - BookingApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -27,7 +30,7 @@
                         </li>
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            if(User.IsInRole("Administrator"))
+                            if (User.IsInRole("Administrator"))
                             {
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -36,10 +39,11 @@
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" asp-area="" asp-controller="Rooms" asp-action="Index">Rooms</a>
                                         <a class="dropdown-item" href="#">Bookings</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="UserRoles" asp-action="Index">Users</a>
                                     </div>
                                 </li>
                             }
-                            
+
                         }
                     </ul>
                     <partial name="_LoginPartial" />
@@ -60,6 +64,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -9,6 +9,7 @@ namespace BookingApp.Contracts
     {
         ICollection<T> FindAll();
         T FindById(int id);
+        T FindByIds(string id);
         bool isExists(int id);
         bool Create(T entity);
         bool Update(T entity);

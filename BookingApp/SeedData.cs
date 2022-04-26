@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BookingApp.Data;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +9,18 @@ namespace BookingApp
 {
     public static class SeedData
     {
-        public static void Seed(UserManager<IdentityUser> userManager,
+        public static void Seed(UserManager<Client> userManager,
             RoleManager<IdentityRole> roleManager)
         {
             SeedRoles(roleManager);
             SeedUsers(userManager);
         }
 
-        public static void SeedUsers(UserManager<IdentityUser> userManager)
+        public static void SeedUsers(UserManager<Client> userManager)
         {
-            if(userManager.FindByNameAsync("admin").Result == null) 
+            if(userManager.FindByNameAsync("admin@localhost.com").Result == null) 
             {
-                var user = new IdentityUser
+                var user = new Client
                 {
                     UserName = "admin@localhost.com",
                     Email = "admin@localhost.com"

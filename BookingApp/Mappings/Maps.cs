@@ -15,6 +15,7 @@ namespace BookingApp.Mappings
             CreateMap<Room, RoomVM>().ReverseMap();
             CreateMap<Booking, BookingVM>().ReverseMap();
             CreateMap<Client, ClientVM>().ReverseMap();
+            CreateMap<Client, ClientVMnoID>().ReverseMap();
         }
     }
 }

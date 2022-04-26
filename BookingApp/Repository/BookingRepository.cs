@@ -38,6 +38,11 @@ namespace BookingApp.Repository
             return Booking;
         }
 
+        public Booking FindByIds(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool isExists(int id)
         {
             var exists = _db.Bookings.Any(q => q.BookingId == id);
