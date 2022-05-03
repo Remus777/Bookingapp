@@ -10,13 +10,12 @@ namespace BookingApp.Models
     public class RoomVM
     {
         [Key]
-        public int RoomId { get; set; }
+        public int Id { get; set; }
         [Display(Name = "Room Number")]
         [Required]
         public int RoomNumber { get; set; }
         [Required]
         public string RoomType { get; set; }
 
-        public virtual ICollection<Booking> Bookings { get; set; }
     }
 }

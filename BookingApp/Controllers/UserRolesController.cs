@@ -81,12 +81,12 @@ namespace BookingApp.Controllers
                     Address = model.Address,
                     PhoneNumber = model.PhoneNumber
                 };
-                //var users = _mapper.Map<Client>(user);
+
                 IdentityResult result = _userManager.CreateAsync(user, model.Password).Result;
                 if (result.Succeeded)
                 {
                     _userManager.AddToRoleAsync(user, "Client").Wait();
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("Admin created a new account with password.");
                     return RedirectToAction(nameof(Index));
                 }
                 else

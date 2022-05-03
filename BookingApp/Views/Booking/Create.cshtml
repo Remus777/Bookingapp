@@ -1,0 +1,55 @@
+﻿@model BookingApp.Models.CreateBookingVM
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Book a Room</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RoomId" class="control-label"></label>
+                @Html.DropDownListFor(q => q.RoomId, new SelectList(Model.Rooms, "Value", "Text"), "Select Room Type", new { @class = "form-control" })
+                <span asp-validation-for="RoomId" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Date_From" class="control-label"></label>
+                        <input asp-for="Date_From" class="form-control datepicker" />
+                        <span asp-validation-for="Date_From" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Date_To" class="control-label"></label>
+                        <input asp-for="Date_To" class="form-control datepicker" />
+                        <span asp-validation-for="Date_To" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit booking" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-secondary btn-block" asp-action="MyBookings">Back to List</a>
+</div>
+
+@section Scripts{
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({
+                dateFormat: "dd-mm-yy"
+            });
+        });
+    </script>
+}

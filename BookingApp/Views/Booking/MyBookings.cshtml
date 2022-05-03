@@ -1,0 +1,48 @@
+﻿@model ClientBookingRequestVM
+
+@{
+    ViewData["Title"] = "MyLeave";
+}
+
+<h1>My Bookings</h1>
+
+<hr />
+<table id="DataTable" class="table">
+    <thead>
+        <tr>
+            <th>
+                Room Number
+            </th>
+            <th>
+                Room Type
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                End Date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Bookings)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Room.RoomNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Room.RoomType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_From)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_To)
+            </td>
+
+
+        </tr>
+        }
+    </tbody>
+</table>

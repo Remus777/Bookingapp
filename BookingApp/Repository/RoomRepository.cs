@@ -39,14 +39,10 @@ namespace BookingApp.Repository
             return room;
         }
 
-        public Room FindByIds(string id)
-        {
-            throw new NotImplementedException();
-        }
 
         public bool isExists(int id)
         {
-            var exists = _db.Rooms.Any(q => q.RoomId == id);
+            var exists = _db.Rooms.Any(q => q.Id == id);
             return exists;
         }
 

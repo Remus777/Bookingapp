@@ -8,5 +8,6 @@ namespace BookingApp.Contracts
 {
     public interface IRoomRepository : IRepositoryBase<Room>
     {
+       
     }
 }

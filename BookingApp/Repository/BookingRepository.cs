@@ -38,14 +38,17 @@ namespace BookingApp.Repository
             return Booking;
         }
 
-        public Booking FindByIds(string id)
+        public ICollection<Booking> GetBookingsByClient(string clientid)
         {
-            throw new NotImplementedException();
+            var bookings = FindAll()
+                 .Where(q => q.ClientId == clientid)
+                 .ToList();
+            return bookings;
         }
 
         public bool isExists(int id)
         {
-            var exists = _db.Bookings.Any(q => q.BookingId == id);
+            var exists = _db.Bookings.Any(q => q.Id == id);
             return exists;
         }
 

@@ -23,7 +23,7 @@ namespace BookingApp.Data.Migrations
 
             modelBuilder.Entity("BookingApp.Data.Booking", b =>
                 {
-                    b.Property<int>("BookingId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -37,7 +37,7 @@ namespace BookingApp.Data.Migrations
                     b.Property<DateTime>("Date_To")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("BookingId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
@@ -46,7 +46,7 @@ namespace BookingApp.Data.Migrations
 
             modelBuilder.Entity("BookingApp.Data.Room", b =>
                 {
-                    b.Property<int>("RoomId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -58,22 +58,22 @@ namespace BookingApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RoomId");
+                    b.HasKey("Id");
 
                     b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("BookingRoom", b =>
                 {
-                    b.Property<int>("BookingsBookingId")
+                    b.Property<int>("BookingsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomsRoomId")
+                    b.Property<int>("RoomsId")
                         .HasColumnType("int");
 
-                    b.HasKey("BookingsBookingId", "RoomsRoomId");
+                    b.HasKey("BookingsId", "RoomsId");
 
-                    b.HasIndex("RoomsRoomId");
+                    b.HasIndex("RoomsId");
 
                     b.ToTable("BookingRoom");
                 });
@@ -313,13 +313,13 @@ namespace BookingApp.Data.Migrations
                 {
                     b.HasOne("BookingApp.Data.Booking", null)
                         .WithMany()
-                        .HasForeignKey("BookingsBookingId")
+                        .HasForeignKey("BookingsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BookingApp.Data.Room", null)
                         .WithMany()
-                        .HasForeignKey("RoomsRoomId")
+                        .HasForeignKey("RoomsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

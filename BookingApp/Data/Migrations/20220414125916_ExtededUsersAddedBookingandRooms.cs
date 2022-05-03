@@ -36,7 +36,7 @@ namespace BookingApp.Data.Migrations
                 name: "Bookings",
                 columns: table => new
                 {
-                    BookingId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date_From = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Date_To = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -44,7 +44,7 @@ namespace BookingApp.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bookings", x => x.BookingId);
+                    table.PrimaryKey("PK_Bookings", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Bookings_AspNetUsers_ClientId",
                         column: x => x.ClientId,
@@ -57,43 +57,43 @@ namespace BookingApp.Data.Migrations
                 name: "Rooms",
                 columns: table => new
                 {
-                    RoomId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoomType = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rooms", x => x.RoomId);
+                    table.PrimaryKey("PK_Rooms", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "BookingRoom",
                 columns: table => new
                 {
-                    BookingsBookingId = table.Column<int>(type: "int", nullable: false),
-                    RoomsRoomId = table.Column<int>(type: "int", nullable: false)
+                    BookingsId = table.Column<int>(type: "int", nullable: false),
+                    RoomsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookingRoom", x => new { x.BookingsBookingId, x.RoomsRoomId });
+                    table.PrimaryKey("PK_BookingRoom", x => new { x.BookingsId, x.RoomsId });
                     table.ForeignKey(
-                        name: "FK_BookingRoom_Bookings_BookingsBookingId",
-                        column: x => x.BookingsBookingId,
+                        name: "FK_BookingRoom_Bookings_BookingsId",
+                        column: x => x.BookingsId,
                         principalTable: "Bookings",
-                        principalColumn: "BookingId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookingRoom_Rooms_RoomsRoomId",
-                        column: x => x.RoomsRoomId,
+                        name: "FK_BookingRoom_Rooms_RoomsId",
+                        column: x => x.RoomsId,
                         principalTable: "Rooms",
-                        principalColumn: "RoomId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookingRoom_RoomsRoomId",
+                name: "IX_BookingRoom_RoomsId",
                 table: "BookingRoom",
-                column: "RoomsRoomId");
+                column: "RoomsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_ClientId",

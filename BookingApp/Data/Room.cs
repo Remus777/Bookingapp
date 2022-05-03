@@ -9,7 +9,7 @@ namespace BookingApp.Data
     public class Room
     {
         [Key]
-        public int RoomId { get; set; }
+        public int Id { get; set; }
         [Required]
         public int RoomNumber { get; set; }
         [Required]

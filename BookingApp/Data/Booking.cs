@@ -10,7 +10,7 @@ namespace BookingApp.Data
     public class Booking
     {
         [Key]
-        public int BookingId { get; set; }
+        public int Id { get; set; }
         public DateTime Date_From { get; set; }
         public DateTime Date_To { get; set; }
         [ForeignKey("ClientId")]
