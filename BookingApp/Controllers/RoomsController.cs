@@ -16,11 +16,16 @@ namespace BookingApp.Controllers
     public class RoomsController : Controller
     {   
         private readonly IRoomRepository _repo;
+        private readonly IBookingRepository _bookingRepo;
         private readonly IMapper _mapper;
 
-        public RoomsController(IRoomRepository repo, IMapper mapper)
+        public RoomsController(
+            IRoomRepository repo,
+            IBookingRepository bookingRepo,
+            IMapper mapper)
         {
             _repo = repo;
+            _bookingRepo = bookingRepo;
             _mapper = mapper;
         }
        
@@ -62,7 +67,7 @@ namespace BookingApp.Controllers
                     return View(model);
                 }
                 var rooms = _mapper.Map<Room>(model);
-                if(_repo.isExists(rooms.RoomNumber))
+                if(_repo.roomExists(rooms.RoomNumber))
                 {
                     ModelState.AddModelError("", "Room already exists");
                     return View(model);
@@ -125,6 +130,12 @@ namespace BookingApp.Controllers
         public ActionResult Delete(int id)
         {
             var rooms = _repo.FindById(id);
+            var roomBookings = _bookingRepo.GetBookingsByRoom(id);
+            if(roomBookings.Any())
+            {
+                ModelState.AddModelError("", "Can't delete a booked room");
+                return RedirectToAction(nameof(Index));
+            }
             if (rooms == null)
             {
                 return NotFound();

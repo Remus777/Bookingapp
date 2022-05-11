@@ -1,4 +1,4 @@
-﻿using BookingApp.Contracts;
+﻿    using BookingApp.Contracts;
 using BookingApp.Data;
 using System;
 using System.Collections.Generic;
@@ -46,11 +46,21 @@ namespace BookingApp.Repository
             return bookings;
         }
 
+        public ICollection<Booking> GetBookingsByRoom(int roomid)
+        {
+            var bookings = _db.Rooms
+                    .Where(q => q.Id == roomid)
+                    .SelectMany(c => c.Bookings)
+                    .ToList();
+            return bookings;
+        }
+
         public bool isExists(int id)
         {
             var exists = _db.Bookings.Any(q => q.Id == id);
             return exists;
         }
+
 
         public bool Save()
         {

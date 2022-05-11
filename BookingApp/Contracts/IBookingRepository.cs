@@ -10,5 +10,6 @@ namespace BookingApp.Contracts
     public interface IBookingRepository : IRepositoryBase<Booking>
     {
         ICollection<Booking> GetBookingsByClient(string clientid);
+        ICollection<Booking> GetBookingsByRoom(int roomid);
     }
 }

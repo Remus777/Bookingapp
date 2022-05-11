@@ -39,10 +39,24 @@ namespace BookingApp.Repository
             return room;
         }
 
+        public ICollection<Room> GetRoomsByBookings(int bookingid)
+        {
+            var rooms = _db.Bookings
+                    .Where(q => q.Id == bookingid)
+                    .SelectMany(c => c.Rooms)
+                    .ToList();
+            return rooms;
+        }
 
         public bool isExists(int id)
         {
-            var exists = _db.Rooms.Any(q => q.Id == id);
+            var exists = _db.Rooms.Any(q => q.Id == id);    
+            return exists;
+        }
+
+        public bool roomExists(int roomnb)
+        {
+            var exists = _db.Rooms.Any(q => q.RoomNumber == roomnb);
             return exists;
         }
 

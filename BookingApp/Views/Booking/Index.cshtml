@@ -1,0 +1,84 @@
+﻿@model ClientBookingRequestVM
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Bookings</h1>
+
+<table id="DataTable" class="table">
+    <thead>
+        <tr>
+            <th>
+                Booking State
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Room Number
+            </th>
+            <th>
+                Room Type
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                End Date
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Bookings)
+        {
+        <tr>
+                <td>
+                    @if (item.Date_To < DateTime.Now)
+                    {
+                        <span class="badge badge-warning">Expired</span>
+                    }
+                    else if (item.Cancelled)
+                    {
+                        <span class="badge badge-secondary">Cancelled</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-success">Valid</span>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Client.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Client.LastName)
+                </td>
+            
+                @foreach (var itemr in item.Rooms)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => itemr.RoomNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => itemr.RoomType)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date_From)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date_To)
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

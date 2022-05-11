@@ -16,7 +16,7 @@ namespace BookingApp.Data
         [ForeignKey("ClientId")]
         public  Client Client { get; set; }
         public string ClientId { get; set; }
-
+        public bool Cancelled { get; set; }
         public virtual ICollection<Room> Rooms { get; set; }
     }
 }

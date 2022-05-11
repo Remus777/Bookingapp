@@ -8,6 +8,7 @@ namespace BookingApp.Contracts
 {
     public interface IRoomRepository : IRepositoryBase<Room>
     {
-       
+        ICollection<Room> GetRoomsByBookings(int bookingid);
+        bool roomExists(int roomnb);
     }
 }
