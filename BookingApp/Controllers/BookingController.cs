@@ -128,34 +128,36 @@ namespace BookingApp.Controllers
                 }
                 var startDate = Convert.ToDateTime(model.Date_From);
                 var endDate = Convert.ToDateTime(model.Date_To);
-
-                if (DateTime.Compare(startDate, DateTime.Now) < 0)
-                {
-                    ModelState.AddModelError("", "Start Date cannot be in the past");
-                    return View(model);
-                }
-                if (DateTime.Compare(startDate, endDate) > 0)
-                {
-                    ModelState.AddModelError("", "Start Date cannot be further in the future than the End Date");
-                    return View(model);
-                }
-
                 var rooms = _roomRepo.FindAll();
                 var bookings = _bookingRepo.FindAll();
 
                 var bookingexists= bookings
-                    .Where(q => q.Date_From >= startDate && q.Date_To <= endDate || q.Date_To >= endDate || q.Date_To == startDate)
+                    .Where(q => !(q.Date_From > endDate || q.Date_To < startDate))
                     .ToList();
 
-                var roomItems = rooms.Select(q => new SelectListItem
+                var checkbooking = bookingexists
+                    .Where(q => q.Cancelled == true)       
+                    .ToList();
+
+                foreach(Booking cancelled in checkbooking) 
+                { 
+                    bookingexists.Remove(bookingexists.FirstOrDefault());
+                }
+
+                if (DateTime.Compare(startDate, DateTime.Now) < 0)
                 {
-                    Text = q.RoomType,
-                    Value = q.RoomType
-                }).ToList();
-                model.Rooms = roomItems;
+                    ModelState.AddModelError("", "The Start Date can not be in the past");
+                    return View(model);
+                }
+                if (DateTime.Compare(startDate, endDate) > 0)
+                {
+                    ModelState.AddModelError("", "The Start Date cannot be further in the future than the End Date");
+                    return View(model);
+                }
 
                 if (bookingexists.Any())
                 {
+                   
                     var bookingids = bookingexists.Select(q => q.Id).ToList();
 
                     foreach (int bookingid in bookingids)
@@ -171,6 +173,7 @@ namespace BookingApp.Controllers
                     }
 
                 }
+
 
                 var client = _userManager.GetUserAsync(User).Result;
 
@@ -229,12 +232,21 @@ namespace BookingApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public ActionResult CancelRequest(int id)
+        private void CancelRequest(int id)
         {
             var booking = _bookingRepo.FindById(id);
             booking.Cancelled = true;
             _bookingRepo.Update(booking);
+        }
+        public ActionResult CancelForUser(int id)
+        {
+            CancelRequest(id);
             return RedirectToAction("MyBookings");
+        }
+        public ActionResult CancelForAdmin(int id)
+        {
+            CancelRequest(id);
+            return RedirectToAction("Index");
         }
     }
 }

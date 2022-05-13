@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,13 +25,20 @@ namespace BookingApp.Models
         [Required]
         public string LastName { get; set; }
         public string Address { get; set; }
+        [Required]
+        public string RoleName { get; set; }
+
     }
-    public class ClientRoleVM
+    public class ClientWithRoleVM
+    {
+        public List<ClientVM> Clients { get; set; }
+
+    }
+    public class ClientDetailsVM
     {
         public ClientVM Client { get; set; }
-        public string ClientId { get; set; }
+        [Required]
         public string RoleName { get; set; }
-        public string RoleId{ get; set; }
     }
     public class ClientVMnoID
     {
@@ -47,5 +55,14 @@ namespace BookingApp.Models
         [Required]
         public string LastName { get; set; }
         public string Address { get; set; }
+        public IEnumerable<SelectListItem> Roles { get; set; }
+        [Required]
+        public string RoleName { get; set; }
+    }
+    public class ClientPasswordVM
+    {
+        public string Id { get; set; }
+        [Required]
+        public string Password { get; set; }
     }
 }

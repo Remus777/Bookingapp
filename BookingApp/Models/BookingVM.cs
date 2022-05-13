@@ -18,7 +18,6 @@ namespace BookingApp.Models
         public ClientVM Client { get; set; }
         public string ClientId { get; set; }
         public List<RoomVM> Rooms { get; set; }
-        public int RoomId { get; set; }
         public string RoomType { get; set; }
         public bool Cancelled { get; set; }
     }
@@ -32,7 +31,6 @@ namespace BookingApp.Models
         public string Date_To { get; set; }
         public IEnumerable<SelectListItem> Rooms { get; set; }
         [Display(Name = "Room Type")]
-        public int RoomId { get; set; }
         public string RoomType { get; set; }
     }
     public class ClientBookingRequestVM
