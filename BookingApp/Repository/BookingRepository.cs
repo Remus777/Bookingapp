@@ -31,6 +31,16 @@ namespace BookingApp.Repository
             var Bookings = _db.Bookings.ToList();
             return Bookings;
         }
+        public List<int> FindAllIds()
+        {
+            var Bookings = _db.Bookings.Select(q => q.Id).ToList();
+            return Bookings;
+        }
+        public List<String> FindAllClientIds()
+        {
+            var Bookings = _db.Bookings.Select(q => q.ClientId).ToList();
+            return Bookings;
+        }
 
         public Booking FindById(int id)
         {
@@ -73,6 +83,13 @@ namespace BookingApp.Repository
             _db.Bookings.Update(entity);
             return Save();
 
+        }
+
+        public ICollection<Booking> GetUsedBookings(DateTime startDate, DateTime endDate)
+        {
+            var bookings = _db.Bookings.Where(q => !(q.Date_From > endDate || q.Date_To < startDate))
+               .ToList();
+            return bookings;
         }
     }
 }

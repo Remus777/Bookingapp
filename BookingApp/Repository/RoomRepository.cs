@@ -1,5 +1,6 @@
 ﻿using BookingApp.Contracts;
 using BookingApp.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,17 @@ namespace BookingApp.Repository
                     .SelectMany(c => c.Rooms)
                     .ToList();
             return rooms;
+        }
+
+        public List<SelectListItem> GetRoomsToSelectList()
+        {
+            var roomItems = _db.Rooms.Select(q => new SelectListItem
+            {
+                Text = q.RoomType,
+                Value = q.RoomType
+            }).Distinct().ToList();
+
+            return roomItems;
         }
 
         public bool isExists(int id)

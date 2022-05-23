@@ -40,6 +40,13 @@ namespace BookingApp.Models
         [Required]
         public string RoleName { get; set; }
     }
+    public class ClientEditVM
+    {
+        public ClientVM Client { get; set; }
+        public IEnumerable<SelectListItem> Roles { get; set; }
+        [Required]
+        public string RoleName { get; set; }
+    }
     public class ClientVMnoID
     {
         [Required]

@@ -1,4 +1,4 @@
-﻿@model BookingApp.Models.ClientDetailsVM
+﻿@model BookingApp.Models.ClientEditVM
 
 @{
     ViewData["Title"] = "Edit";
@@ -39,10 +39,10 @@
                 <span asp-validation-for="Client.Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-            <label asp-for="RoleName" class="control-label"></label>
-            <input asp-for="RoleName" class="form-control" />
-            <span asp-validation-for="RoleName" class="text-danger"></span>
-        </div>
+                <label asp-for="RoleName" class="control-label"></label>
+                @Html.DropDownListFor(q => q.RoleName, new SelectList(Model.Roles, "Value", "Text"), new { @class = "form-control" })
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save Changes" class="btn btn-success " /> <a class="btn btn-outline-secondary" asp-action="Index">Back to List</a>
             </div>

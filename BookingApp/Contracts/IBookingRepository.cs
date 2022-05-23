@@ -11,5 +11,8 @@ namespace BookingApp.Contracts
     {
         ICollection<Booking> GetBookingsByClient(string clientid);
         ICollection<Booking> GetBookingsByRoom(int roomid);
+        public List<int> FindAllIds();
+        public List<string> FindAllClientIds();
+        ICollection<Booking> GetUsedBookings(DateTime startDate, DateTime endDate);
     }
 }

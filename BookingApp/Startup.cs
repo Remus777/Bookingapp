@@ -2,6 +2,7 @@ using BookingApp.Contracts;
 using BookingApp.Data;
 using BookingApp.Mappings;
 using BookingApp.Repository;
+using BookingApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,9 +36,9 @@ namespace BookingApp
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
             //added
+            services.AddScoped<IBookingServices, BookingServices>();
             services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
-            //services.AddScoped<IUserRolesRepository, UserRolesRepository>();
 
             services.AddAutoMapper(typeof(Maps));
 

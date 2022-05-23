@@ -1,13 +1,12 @@
-﻿using BookingApp.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BookingApp.Models
+namespace BookingApp.Models.DataTrasnferObjects
 {
-    public class RoomVM
+    public class RoomDTO
     {
         public int Id { get; set; }
         [Display(Name = "Room Number")]
@@ -15,6 +14,5 @@ namespace BookingApp.Models
         public int RoomNumber { get; set; }
         [Required]
         public string RoomType { get; set; }
-
     }
 }

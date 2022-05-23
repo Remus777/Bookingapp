@@ -41,7 +41,7 @@
         {
         <tr>
                 <td>
-                    @if (item.Date_To < DateTime.Now)
+                    @if (item.Date_To < DateTime.Now && !item.Cancelled)
                     {
                         <span class="badge badge-warning">Expired</span>
                     }

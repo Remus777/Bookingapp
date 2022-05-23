@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BookingApp.Controllers
@@ -40,8 +41,15 @@ namespace BookingApp.Controllers
         // GET: UserRoles
         public ActionResult Index()
         {
-            var clients = _userManager.Users;
-            
+
+            var clients = _userManager.Users.ToList(); 
+            var currentUser = _userManager.GetUserAsync(User).Result;
+
+            if (clients.Where(q => q.Id == currentUser.Id).FirstOrDefault() == currentUser)
+            {
+                clients.Remove(currentUser);
+            }
+
             var mappedClients = _mapper.Map<List<ClientVM>>(clients);
             var model = new ClientWithRoleVM
             {
@@ -140,9 +148,18 @@ namespace BookingApp.Controllers
             var user = _userManager.FindByIdAsync(id).Result;
             var userMapped = _mapper.Map<ClientVM>(user);
             var role = _userManager.GetRolesAsync(user).Result.FirstOrDefault();
-            var model = new ClientDetailsVM
+            var roles = _roleManager.Roles.ToList();
+            var roleItems = roles.Select(q => new SelectListItem
+            {
+                Text = q.Name,
+                Value = q.Name
+            }).ToList();
+    
+
+            var model = new ClientEditVM
             {
                 Client = userMapped,
+                Roles = roleItems,
                 RoleName = role
             };
             if (model != null)
@@ -181,22 +198,24 @@ namespace BookingApp.Controllers
                         user.LastName = model.Client.LastName;
                     else
                         ModelState.AddModelError("", "Last name cannot be empty");
-                    if (!string.IsNullOrEmpty(model.RoleName))
-                        role = model.RoleName;
-                    else
-                        ModelState.AddModelError("", "Role name cannot be empty");
+                    
                     user.Address = model.Client.Address;
-                    if (!string.IsNullOrEmpty(model.Client.Email))
+
+                    IdentityResult userresult = _userManager.UpdateAsync(user).Result;
+                    if(role != model.RoleName)
                     {
-                        IdentityResult result = _userManager.UpdateAsync(user).Result;
-                        if (result.Succeeded)
-                            return RedirectToAction(nameof(Index));
-                        else
-                        {
-                            ModelState.AddModelError("", "Something went wrong...");
-                            return View(model);
-                        }
+                        _userManager.RemoveFromRoleAsync(user, role).Wait();
+                        _userManager.AddToRoleAsync(user, model.RoleName).Wait();
                     }
+                    
+                    if (userresult.Succeeded)
+                       return RedirectToAction(nameof(Index));
+                    else
+                    {
+                        ModelState.AddModelError("", "Something went wrong...");
+                        return View(model);
+                    }
+                    
                 }
                 ModelState.AddModelError("", "Something went wrong...");
                 return View(model);

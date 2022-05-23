@@ -37,18 +37,26 @@ namespace BookingApp.Areas.Identity.Pages.Account.Manage
             [RegularExpression("^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$", ErrorMessage = "Phone number is not valid")]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+            public string Address { get; set; }
         }
 
         private async Task LoadAsync(Client user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Address = user.Address
+
             };
         }
 
@@ -88,7 +96,36 @@ namespace BookingApp.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+            if (!string.IsNullOrEmpty(Input.FirstName))
+            {
+                if (Input.FirstName != user.FirstName)
+                {
+                    user.FirstName = Input.FirstName;
+                }
+            }
+            else
+            {
+                StatusMessage = "First Name can not be empty";
+                return RedirectToPage();
+            }
 
+            if (!string.IsNullOrEmpty(Input.LastName))
+            {
+                if (Input.LastName != user.LastName)
+                {
+                    user.LastName = Input.LastName;
+                }
+            }
+            else
+            {
+                StatusMessage = "Last Name can not be empty";
+                return RedirectToPage();
+            }
+            if (Input.Address != user.Address)
+            {
+                user.Address = Input.Address;
+            }
+            await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();

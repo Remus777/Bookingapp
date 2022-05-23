@@ -1,4 +1,5 @@
 ﻿using BookingApp.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace BookingApp.Contracts
     {
         ICollection<Room> GetRoomsByBookings(int bookingid);
         bool roomExists(int roomnb);
+        List<SelectListItem> GetRoomsToSelectList();
     }
 }

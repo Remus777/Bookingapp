@@ -1,7 +1,7 @@
 ﻿@model ClientBookingRequestVM
 
 @{
-    ViewData["Title"] = "MyLeave";
+    ViewData["Title"] = "MyBookings";
 }
 
 <h1>My Bookings</h1>
@@ -35,7 +35,7 @@
         {
         <tr>
             <td>
-                @if (item.Date_To < DateTime.Now)
+                @if (item.Date_To < DateTime.Now && !item.Cancelled)
                 {
                     <span class="badge badge-warning">Expired</span>
                 }
