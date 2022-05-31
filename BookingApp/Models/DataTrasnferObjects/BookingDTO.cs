@@ -14,10 +14,10 @@ namespace BookingApp.Models.DataTrasnferObjects
         public DateTime Date_From { get; set; }
         [Required]
         public DateTime Date_To { get; set; }
-        public ClientVM Client { get; set; }
+        public ClientDTO Client { get; set; }
         public string ClientId { get; set; }
         public List<RoomDTO> Rooms { get; set; }
-        public string RoomType { get; set; }
+        public int NrOfRooms { get; set; }
         public bool Cancelled { get; set; }
     }
     public class CreateBookingDTO
@@ -28,12 +28,19 @@ namespace BookingApp.Models.DataTrasnferObjects
         [Display(Name = "End Date")]
         [Required]
         public string Date_To { get; set; }
-        public IEnumerable<SelectListItem> Rooms { get; set; }
+        public IList<SelectListItem> Rooms { get; set; }
         [Display(Name = "Room Type")]
-        public string RoomType { get; set; }
+        public List<BookingRoomTypesDTO> RoomTypes { get; set; }
+        public int NrOfRoomTypes { get; set; }
     }
     public class ClientBookingRequestDTO
     {
         public List<BookingDTO> Bookings { get; set; }
     }
+    public class BookingRoomTypesDTO
+    {
+        public string RoomType { get; set; }
+        public int? NrOfRooms { get; set; }
+    }
+
 }

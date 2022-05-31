@@ -17,8 +17,8 @@ namespace BookingApp.Models
         public DateTime Date_To { get; set; }
         public ClientVM Client { get; set; }
         public string ClientId { get; set; }
-        public List<RoomVM> Rooms { get; set; }
-        public string RoomType { get; set; }
+        public List<RoomVM> Rooms { get; set;}
+        public int NrOfRooms { get; set; }
         public bool Cancelled { get; set; }
     }
     public class CreateBookingVM
@@ -29,14 +29,19 @@ namespace BookingApp.Models
         [Display(Name = "End Date")]
         [Required]
         public string Date_To { get; set; }
-        public IEnumerable<SelectListItem> Rooms { get; set; }
+        public IList<SelectListItem> Rooms { get; set; }
         [Display(Name = "Room Type")]
-        public string RoomType { get; set; }
+        public List<BookingRoomTypesVM> RoomTypes { get; set; }
+        public int NrOfRoomTypes { get; set; }
     }
     public class ClientBookingRequestVM
     {
         public List<BookingVM> Bookings { get; set; }
     }
-
+    public class BookingRoomTypesVM
+    {
+        public string RoomType { get; set; }
+        public int? NrOfRooms { get; set; }
+    }
 
 }

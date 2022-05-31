@@ -38,7 +38,18 @@ namespace BookingApp.Controllers
             var IndexlogicMapping = _mapper.Map<ClientBookingRequestVM>(Indexlogic);
             return View(IndexlogicMapping);
         }
-
+        public ActionResult IndexDetails(int id)
+        {
+            var IndexDetailsLogic = _bookingServices.Details(id);
+            var IndexDetailsLogicMapping = _mapper.Map<BookingVM>(IndexDetailsLogic);
+            return View(IndexDetailsLogicMapping);
+        }
+        public ActionResult MyBookingsDetails(int id)
+        {
+            var myBookingDetailsLogic = _bookingServices.Details(id);
+            var myBookingDetailsLogicMapping = _mapper.Map<BookingVM>(myBookingDetailsLogic);
+            return View(myBookingDetailsLogicMapping);
+        }
         public ActionResult MyBookings()
         {
             var clientId = _userManager.GetUserId(User);
@@ -53,6 +64,7 @@ namespace BookingApp.Controllers
         {
             var createBookingLogic = _bookingServices.CreateBookingGET();
             var createBookingLogicMapping = _mapper.Map<CreateBookingVM>(createBookingLogic);
+            createBookingLogicMapping.RoomTypes = new List<BookingRoomTypesVM>(new BookingRoomTypesVM[createBookingLogicMapping.NrOfRoomTypes]);
             return View(createBookingLogicMapping);
         }
 
@@ -65,31 +77,22 @@ namespace BookingApp.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    ModelState.AddModelError("", "Something went wrong");
                     return View(model);
                 }
 
                 var clientId = _userManager.GetUserId(User);
                 var modelMapping = _mapper.Map<CreateBookingDTO>(model);
 
-                int flag = _bookingServices.CreateBookingPOST(modelMapping, clientId);
+                string flag = _bookingServices.CreateBookingPOST(modelMapping, clientId);
 
-                var modelMapBack = _mapper.Map<CreateBookingVM>(modelMapping);
-                switch (flag)
+                var modelMapBack = _mapper.Map<CreateBookingVM>(modelMapping);               
+                if (flag != null)
                 {
-                    case 1:
-                        ModelState.AddModelError("", "The Start Date can not be in the past");
-                        return View(modelMapBack);
-                    case 2:
-                        ModelState.AddModelError("", "The Start Date cannot be further in the future than the End Date");
-                        return View(modelMapBack);
-                    case 3:
-                        ModelState.AddModelError("", "There is no room available of this type");
-                        return View(modelMapBack);
-                    case 4:
-                        ModelState.AddModelError("", "Something went wrong with submiting your booking");
-                        return View(modelMapBack);
+                    ModelState.AddModelError("", flag);
+                    return View(modelMapBack);
                 }
-                
+
                 return RedirectToAction("MyBookings");
             }
             catch
@@ -105,13 +108,12 @@ namespace BookingApp.Controllers
         public ActionResult Delete(int id)
         {
             var flag = _bookingServices.Delete(id);
-            if(flag == 1)
+            switch (flag)
             {
-                return NotFound();
-            }
-            if(flag == 2)
-            {
-                return BadRequest();
+                case 1:
+                    return NotFound();
+                case 2:
+                    return BadRequest();
             }
             return RedirectToAction("Index");
         }
@@ -120,26 +122,24 @@ namespace BookingApp.Controllers
         public ActionResult CancelForUser(int id)
         {
             var flag = _bookingServices.CancelRequest(id);
-            if (flag == 1)
+            switch (flag)
             {
-                return NotFound();
-            }
-            if (flag == 2)
-            {
-                return BadRequest();
+                case 1:
+                    return NotFound();
+                case 2:
+                    return BadRequest();
             }
             return RedirectToAction("MyBookings");
         }
         public ActionResult CancelForAdmin(int id)
         {
             var flag = _bookingServices.CancelRequest(id);
-            if (flag == 1)
+            switch (flag)
             {
-                return NotFound();
-            }
-            if (flag == 2)
-            {
-                return BadRequest();
+                case 1:
+                    return NotFound();
+                case 2:
+                    return BadRequest();
             }
             return RedirectToAction("Index");
         }

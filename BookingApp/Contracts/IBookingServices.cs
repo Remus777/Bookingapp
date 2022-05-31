@@ -14,7 +14,8 @@ namespace BookingApp.Contracts
         CreateBookingDTO CreateBookingGET();
         int CancelRequest(int id);
         int Delete(int id);
-        int CreateBookingPOST(CreateBookingDTO model, string clientId);
+        string CreateBookingPOST(CreateBookingDTO model, string clientId);
+        BookingDTO Details(int id);
 
     }
 }

@@ -37,8 +37,10 @@ namespace BookingApp
             services.AddDatabaseDeveloperPageExceptionFilter();
             //added
             services.AddScoped<IBookingServices, BookingServices>();
+            services.AddScoped<IRoomServices, RoomServices>();
             services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<IUsersServices, UsersServices>();
 
             services.AddAutoMapper(typeof(Maps));
 

@@ -12,5 +12,6 @@ namespace BookingApp.Contracts
         ICollection<Room> GetRoomsByBookings(int bookingid);
         bool roomExists(int roomnb);
         List<SelectListItem> GetRoomsToSelectList();
+        bool roomNbChanged(Room model);
     }
 }

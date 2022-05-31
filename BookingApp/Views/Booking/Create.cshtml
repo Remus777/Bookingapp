@@ -9,15 +9,33 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-8">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="RoomType" class="control-label"></label>
-                @Html.DropDownListFor(q => q.RoomType, new SelectList(Model.Rooms, "Value", "Text"), "Select Room Type", new { @class = "form-control" })
-                <span asp-validation-for="RoomType" class="text-danger"></span>
-            </div>
+            @Html.HiddenFor(m => m.NrOfRoomTypes)
+            @for (int i = 0; i < Model.Rooms.Count(); i++)
+            {
+                @Html.HiddenFor(m => m.Rooms[i].Text)
+                @Html.HiddenFor(m => m.Rooms[i].Value)
+            }
+
             <div class="row">
+                @for (int i = 0; i < Model.NrOfRoomTypes; i++)
+                {
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label asp-for="RoomTypes" class="control-label"></label>
+                            @Html.DropDownListFor(q => q.RoomTypes[i].RoomType, new SelectList(Model.Rooms, "Value", "Text"), "Select Room Type", new { @class = "form-control" })
+                            <span asp-validation-for="RoomTypes" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Number of Rooms</label>
+                            @Html.TextBoxFor(q => q.RoomTypes[i].NrOfRooms, new { @class = "form-control", @type = "number"})
+                        </div>
+                    </div>
+                }
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="Date_From" class="control-label"></label>
@@ -33,16 +51,20 @@
                     </div>
                 </div>
             </div>
+
+
+
             <div class="form-group">
                 <input type="submit" value="Submit booking" class="btn btn-primary btn-block" />
+            </div>
+            <div>
+                <a class="btn btn-secondary btn-block" asp-action="MyBookings">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a class="btn btn-secondary btn-block" asp-action="MyBookings">Back to List</a>
-</div>
+
 
 @section Scripts{
     <script>

@@ -65,6 +65,11 @@ namespace BookingApp.Repository
             var exists = _db.Rooms.Any(q => q.Id == id);    
             return exists;
         }
+        public bool roomNbChanged(Room room)
+        {
+            var exists = _db.Rooms.Any(q => q.Id == room.Id && q.RoomNumber != room.RoomNumber);
+            return exists;
+        }
 
         public bool roomExists(int roomnb)
         {

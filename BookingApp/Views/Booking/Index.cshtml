@@ -20,10 +20,7 @@
                 Last Name
             </th>
             <th>
-                Room Number
-            </th>
-            <th>
-                Room Type
+                Nr of Rooms
             </th>
             <th>
                 Start Date
@@ -61,15 +58,9 @@
                     @Html.DisplayFor(modelItem => item.Client.LastName)
                 </td>
             
-                @foreach (var itemr in item.Rooms)
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => itemr.RoomNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => itemr.RoomType)
-                    </td>
-                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.NrOfRooms)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Date_From)
                 </td>
@@ -77,11 +68,12 @@
                     @Html.DisplayFor(modelItem => item.Date_To)
                 </td>
                 <td>
-                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id" onclick="return confirm('Are you sure?')">Delete</a>
+                    <a asp-action="IndexDetails" class="btn btn-info" asp-route-id="@item.Id">Details</a>
                     @if (!item.Cancelled && item.Date_To > DateTime.Now)
                     {
                         <a asp-action="CancelForAdmin" class="btn btn-warning" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel</a>
                     }
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id" onclick="return confirm('Are you sure?')">Delete</a>
                 </td>
             </tr>
         }
